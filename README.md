@@ -1,133 +1,501 @@
 # 🛣️ TarmacLook
 
-**AI-powered road damage detection, severity scoring, and health mapping — from a single image to a city-wide dashboard.**
+**AI-powered road damage detection, severity assessment, and infrastructure health mapping — from road imagery to actionable road-condition intelligence.**
 
 <p align="center">
-  <img src="https://img.shields.io/badge/status-in%20progress-yellow?style=flat-square" alt="status">
-  <img src="https://img.shields.io/badge/python-3.10+-blue?style=flat-square&logo=python" alt="python">
-  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white" alt="pytorch">
-  <img src="https://img.shields.io/badge/YOLOv8-Ultralytics-purple?style=flat-square" alt="yolov8">
-  <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=flat-square&logo=streamlit&logoColor=white" alt="streamlit">
+  <img src="https://img.shields.io/badge/status-active%20development-yellow?style=flat-square" alt="status">
+  <img src="https://img.shields.io/badge/python-3.10%2B-blue?style=flat-square&logo=python" alt="python">
+  <img src="https://img.shields.io/badge/scikit--learn-baseline-orange?style=flat-square&logo=scikit-learn" alt="scikit-learn">
+  <img src="https://img.shields.io/badge/PyTorch-planned-red?style=flat-square&logo=pytorch" alt="pytorch">
+  <img src="https://img.shields.io/badge/YOLOv8-planned-purple?style=flat-square" alt="yolov8">
+  <img src="https://img.shields.io/badge/ANN-experimented-blueviolet?style=flat-square" alt="ANN">
   <img src="https://img.shields.io/badge/license-MIT-green?style=flat-square" alt="license">
 </p>
 
 ---
 
-## 📍 What is TarmacLook?
+## 📍 Overview
 
-Potholes and cracks don't just appear — they get worse until someone drives over them and reports it, usually too late. TarmacLook turns raw road imagery into a **living health record** for road infrastructure: it detects damage, scores how urgent it is, and plots it on a map so the worst roads are obvious at a glance — not buried in a spreadsheet.
+**TarmacLook** is a computer-vision and machine-learning project focused on automated road-condition assessment.
 
-Instead of stopping at "pothole detected," TarmacLook asks three follow-up questions no basic detector answers:
-- **How bad is it, really?** → a single interpretable *Road Health Index (RHI)* per segment
-- **Where is it worst?** → a map, not a list of coordinates
-- **Is it getting worse?** → (stretch goal) damage progression over time
+The project aims to move beyond simply detecting a pothole or crack. The long-term objective is to transform road imagery into a structured representation of **what damage exists, how severe it is, where it occurs, and how road condition changes over time**.
+
+The current implementation establishes the machine-learning foundation using the **Road Damage Dataset 2022 (RDD2022)** and a classical computer-vision baseline. Deep-learning-based object detection and road-health scoring are the next stages of development.
+
+### Core questions TarmacLook aims to answer
+
+* **What is wrong with the road?**
+  Detect and classify visible road damage.
+
+* **How significant is the damage?**
+  Estimate severity using damage characteristics and spatial information.
+
+* **Where is the damage concentrated?**
+  Aggregate detections into road segments and visualize them geographically.
+
+* **How is the road condition changing?**
+  Track damage across repeated observations as a future extension.
 
 ---
 
-## 🧠 How it works — the four-layer pipeline
+## 🧠 System Architecture
 
 ```mermaid
 flowchart TD
-    A[📷 Input: Road Images / Dashcam Video] --> B[Layer 1: Detection]
-    B --> C[Layer 2: Severity & Risk Scoring]
-    C --> D[Layer 3: Aggregation & Mapping]
-    D --> E[🗺️ Dashboard: City/Route Health Heatmap]
-    E -.optional.-> F[Layer 4: Temporal Tracking / Edge Deployment / Cross-Domain Testing]
+    A[📷 Road Images / Dashcam Frames]
+    A --> B[Dataset Processing & EDA]
 
-    style B fill:#2563eb,color:#fff
-    style C fill:#7c3aed,color:#fff
-    style D fill:#059669,color:#fff
-    style F fill:#f59e0b,color:#fff,stroke-dasharray: 5 5
-```
+    B --> C[Feature Extraction]
+    C --> D[HOG Features]
 
-| Layer | What it does | Status |
-|---|---|---|
-| **1. Detection** | Fine-tuned YOLOv8 on RDD2022 — identifies longitudinal cracks, transverse cracks, alligator cracks, and potholes | 🚧 In progress *(SVM baseline done)* |
-| **2. Severity & Risk Scoring** | Converts raw detections into a *Road Health Index* using bounding box area, damage density, and damage-type urgency weighting | ⏳ Planned |
-| **3. Aggregation & Mapping** | Clusters detections by GPS/frame order into road segments, renders a Folium/Plotly heatmap of road health | ⏳ Planned |
-| **4. Stretch goals** | Temporal damage tracking, edge deployment (ONNX/TensorRT on Raspberry Pi), cross-domain generalization across India/Japan/Czech/Norway | 💭 Exploring |
+    D --> E[Classical ML Baseline]
+    E --> F[One-vs-Rest Linear SVM]
 
----
+    F --> G[Road Damage Predictions]
 
-## 📊 Current Progress
+    G --> H[Severity & Risk Scoring]
+    H --> I[Road Health Index]
 
-```
-[██████░░░░░░░░░░░░░░░░░░░░░░░░] ~20% complete
-```
+    I --> J[Road Segment Aggregation]
+    J --> K[🗺️ Interactive Road Health Map]
 
-- ✅ Exploratory Data Analysis on RDD2022
-- ✅ Baseline SVM classifier (establishes a performance floor to beat)
-- 🚧 YOLOv8 fine-tuning on the four damage classes
-- ⬜ Road Health Index scoring engine
-- ⬜ Streamlit + Folium mapping dashboard
-- ⬜ Stretch: temporal tracking / edge deployment / cross-domain testing
+    G -. future .-> L[YOLOv8 / RT-DETR]
+    L --> H
 
-> **Why the SVM baseline matters:** it's not filler — it's the number every later model has to beat. Once YOLOv8 is trained, this README will show a direct baseline-vs-deep-learning comparison table.
-
----
-
-## 🗺️ Roadmap
-
-- [x] **Phase 0 — Foundations**: Dataset exploration, class distribution analysis, baseline SVM model
-- [ ] **Phase 1 — Detection**: Fine-tune YOLOv8 (or RT-DETR) on RDD2022's 4 damage classes; evaluate mAP@0.5 per class
-- [ ] **Phase 2 — Scoring**: Design and implement the Road Health Index formula (severity × density × urgency weighting)
-- [ ] **Phase 3 — Mapping**: Build segment clustering + interactive Streamlit dashboard with a Folium heatmap
-- [ ] **Phase 4 — Stretch** *(pick 1–2)*:
-  - [ ] Temporal tracking — quantify damage growth across repeated passes
-  - [ ] Edge deployment — ONNX/TensorRT export, live inference on Raspberry Pi
-  - [ ] Cross-domain generalization — benchmark performance drop across India/Japan/Czech/Norway subsets
-
----
-
-## 📁 Repository Structure
-
-```
-tarmac-look/
-├── data/                  # dataset links + sample images (raw data not committed)
-├── notebooks/             # EDA, baseline SVM, YOLOv8 training notebooks
-├── src/
-│   ├── detection/         # YOLOv8/RT-DETR training + inference
-│   ├── severity/          # Road Health Index scoring logic
-│   ├── aggregation/       # GPS clustering, segment mapping
-│   └── dashboard/         # Streamlit + Folium/Plotly app
-├── models/                # trained weights (hosted externally, linked here)
-├── results/               # metrics tables, sample visualizations
-└── docs/                  # architecture diagrams, writeups
+    J -. future .-> M[Temporal Damage Tracking]
+    L -. future .-> N[Edge Deployment]
 ```
 
 ---
 
-## ⚙️ Setup
+## 🚧 Current Development Status
+
+| Component                             | Status      |
+| ------------------------------------- | ----------- |
+| RDD2022 dataset acquisition & parsing | ✅ Completed |
+| Exploratory data analysis             | ✅ Completed |
+| Class distribution analysis           | ✅ Completed |
+| HOG feature engineering               | ✅ Completed |
+| Multilabel SVM baseline               | ✅ Completed |
+| Validation & test evaluation          | ✅ Completed |
+| Literature review                     | ✅ Completed |
+| ANN experimentation                   | ✅ Completed |
+| Deep-learning object detector         | 🚧 Next     |
+| Road Health Index                     | ⬜ Planned   |
+| Road-segment aggregation              | ⬜ Planned   |
+| Interactive road-health dashboard     | ⬜ Planned   |
+| Temporal damage tracking              | ⬜ Future    |
+| Edge deployment                       | ⬜ Future    |
+| Cross-domain evaluation               | ⬜ Future    |
+
+---
+
+# 📊 RDD2022 Dataset Analysis
+
+TarmacLook currently uses the **Road Damage Dataset 2022 (RDD2022)**.
+
+The dataset contains road images and annotations representing multiple types of road damage. The current preprocessing pipeline identifies **five damage categories**:
+
+1. Longitudinal Crack
+2. Transverse Crack
+3. Alligator Crack
+4. Other Corruption
+5. Pothole
+
+The dataset processing pipeline currently parses the YOLO-format annotations and constructs multilabel representations for each image.
+
+### Dataset statistics from the current pipeline
+
+| Split      |     Images |
+| ---------- | ---------: |
+| Training   |     26,869 |
+| Validation |      5,758 |
+| Test       |      5,758 |
+| Total      | **38,385** |
+
+The annotation analysis identified:
+
+* **77,436 annotation records**
+* **11,724 images with empty annotation files**
+* **5 distinct damage classes**
+
+Class distribution:
+
+| Class              | Annotation Count |
+| ------------------ | ---------------: |
+| Longitudinal Crack |           26,016 |
+| Transverse Crack   |           11,830 |
+| Alligator Crack    |           10,617 |
+| Other Corruption   |           10,705 |
+| Pothole            |            6,544 |
+
+For computationally feasible experimentation, the current baseline uses a reproducible subsample of:
+
+* **8,000 training images**
+* **2,000 validation images**
+* **2,000 test images**
+
+---
+
+# 🔬 Classical Computer-Vision Baseline
+
+Before introducing deep-learning object detectors, TarmacLook establishes a reproducible classical machine-learning baseline.
+
+### Feature extraction
+
+Each image is:
+
+1. Converted to RGB
+2. Resized
+3. Converted to grayscale
+4. Processed using **Histogram of Oriented Gradients (HOG)**
+
+Current HOG configuration:
+
+```text
+Orientations:       9
+Pixels per cell:    16 × 16
+Cells per block:    2 × 2
+Block normalization: L2-Hys
+Feature dimension:  1764
+```
+
+### Model
+
+The baseline uses:
+
+```text
+OneVsRestClassifier
+        ↓
+LinearSVC
+        ↓
+class_weight = balanced
+max_iter = 5000
+```
+
+This formulation treats road-damage recognition as a **multilabel classification problem**, allowing an image to contain multiple damage categories.
+
+---
+
+# 📈 Baseline Results
+
+The baseline has now been evaluated on both validation and held-out test data.
+
+### Final test performance
+
+| Damage Type        | Precision |   Recall |       F1 |
+| ------------------ | --------: | -------: | -------: |
+| Longitudinal Crack |      0.57 |     0.67 | **0.61** |
+| Transverse Crack   |      0.35 |     0.61 | **0.45** |
+| Alligator Crack    |      0.37 |     0.62 | **0.46** |
+| Other Corruption   |      0.44 |     0.63 | **0.52** |
+| Pothole            |      0.20 |     0.51 | **0.29** |
+| **Macro Average**  |  **0.39** | **0.61** | **0.47** |
+
+### Overall metrics
+
+| Metric           | Test Score |
+| ---------------- | ---------: |
+| **Macro-F1**     | **0.4667** |
+| **Micro-F1**     | **0.4954** |
+| **Hamming Loss** | **0.2683** |
+
+The SVM is intentionally treated as a **baseline rather than the final detection system**. Its purpose is to establish a measurable performance floor that future deep-learning approaches must improve upon.
+
+The strongest baseline performance is currently observed for **Longitudinal Crack**, while **Pothole** remains the most difficult class, with an F1-score of 0.29.
+
+---
+
+# 🧪 ANN Experiments
+
+The repository also contains an independent ANN experimentation notebook exploring neural-network design choices and training behaviour.
+
+The experiment evaluates:
+
+* Baseline ANN
+* ReLU
+* Sigmoid
+* Tanh
+* Leaky ReLU
+* Early stopping
+* Hyperparameter-tuned ANN
+
+The experiments achieved up to **96.67% test accuracy** on the experimental classification task, with early stopping producing the lowest recorded test loss among the evaluated configurations.
+
+> This ANN experiment is maintained as a supporting machine-learning study and is separate from the RDD2022 road-damage baseline.
+
+---
+
+# 📚 Literature Review
+
+A dedicated literature review has now been completed and added to the repository as:
+
+```text
+TarmacLook_Literature_Review.xlsx
+```
+
+The review is being used to guide the transition from simple damage classification toward a more complete road-condition assessment system.
+
+Particular areas of interest include:
+
+* Automated pavement-condition assessment
+* Road-damage detection
+* Deep-learning-based object detection
+* Severity estimation
+* Pavement Condition Index (PCI)
+* Multi-task learning
+* Smartphone / dashcam-based road inspection
+* 3D reconstruction and damage measurement
+* Road-condition mapping
+* Temporal infrastructure monitoring
+
+The literature review will inform the design of the project's future **severity scoring and Road Health Index** components.
+
+---
+
+# 🗺️ Road Health Index
+
+The next major system component is a **Road Health Index (RHI)** designed to convert individual damage detections into an interpretable road-segment condition score.
+
+The planned formulation will consider factors such as:
+
+```text
+Damage Type
+     +
+Damage Severity
+     +
+Damage Density
+     +
+Spatial Concentration
+     ↓
+Road Health Index
+```
+
+Potential inputs include:
+
+* Bounding-box area
+* Number of detected defects
+* Damage category
+* Damage-type severity weighting
+* Damage density within a road segment
+* Spatial concentration of defects
+
+The objective is to produce a score that can be aggregated across road segments rather than reporting isolated detections.
+
+---
+
+# 🗺️ Road-Level Mapping
+
+After detection and scoring, TarmacLook will aggregate observations spatially.
+
+```text
+Image / Video Frame
+        ↓
+Damage Detection
+        ↓
+GPS / Frame Association
+        ↓
+Road Segment Clustering
+        ↓
+Severity Aggregation
+        ↓
+Road Health Index
+        ↓
+Interactive Map
+```
+
+The planned visualization layer will use tools such as:
+
+* **Streamlit**
+* **Folium**
+* **Plotly**
+
+The final interface is intended to provide a city/route-level view of road condition and highlight areas requiring inspection or maintenance.
+
+---
+
+# 🚀 Roadmap
+
+### Phase 0 — Foundations ✅
+
+* [x] RDD2022 acquisition
+* [x] Dataset parsing
+* [x] Exploratory data analysis
+* [x] Class-distribution analysis
+* [x] Annotation analysis
+* [x] Literature review
+* [x] Classical ML baseline
+
+### Phase 1 — Detection 🚧
+
+* [x] HOG feature extraction
+* [x] Multilabel SVM baseline
+* [x] Validation and test evaluation
+* [ ] Fine-tune YOLOv8
+* [ ] Evaluate object-detection metrics
+* [ ] Compare deep learning against SVM baseline
+* [ ] Investigate RT-DETR as an alternative detector
+
+### Phase 2 — Severity Scoring ⬜
+
+* [ ] Define damage severity levels
+* [ ] Develop damage-type weighting
+* [ ] Implement Road Health Index
+* [ ] Validate scoring methodology against literature
+
+### Phase 3 — Road Mapping ⬜
+
+* [ ] Associate detections with GPS/frame information
+* [ ] Cluster detections into road segments
+* [ ] Aggregate damage severity
+* [ ] Build interactive Streamlit dashboard
+* [ ] Add Folium/Plotly road-health visualization
+
+### Phase 4 — Advanced Capabilities ⬜
+
+* [ ] Temporal damage tracking
+* [ ] Repeated-pass comparison
+* [ ] Cross-domain evaluation
+* [ ] ONNX/TensorRT inference
+* [ ] Edge deployment
+* [ ] Real-time dashcam inference
+
+---
+
+# 📁 Repository Structure
+
+```text
+TarmacLook/
+│
+├── ANN PRACTICAL ON PROJECT.ipynb
+│   └── ANN experiments and architecture comparison
+│
+├── RoadDamageDetection.ipynb
+│   └── RDD2022 processing, EDA and ML baseline
+│
+├── TarmacLook_annotated.ipynb
+│   └── Documented baseline-model workflow
+│
+├── TarmacLook_Literature_Review.xlsx
+│   └── Literature review and research references
+│
+└── README.md
+```
+
+As the project moves into the deep-learning and deployment stages, the repository structure will be expanded to separate:
+
+```text
+data/
+notebooks/
+src/
+    detection/
+    severity/
+    aggregation/
+    dashboard/
+models/
+results/
+docs/
+```
+
+---
+
+# ⚙️ Getting Started
+
+Clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/tarmac-look.git
-cd tarmac-look
-pip install -r requirements.txt
+git clone https://github.com/GuptaPurab/TarmacLook.git
+cd TarmacLook
 ```
 
-Dataset: [RDD2022](https://github.com/sekilab/RoadDamageDetector) (not committed to this repo — see `data/README.md` for download instructions).
+The primary experiments are currently implemented as Jupyter/Google Colab notebooks.
+
+### Recommended workflow
+
+1. Open `RoadDamageDetection.ipynb`
+2. Acquire the RDD2022 dataset
+3. Run the dataset analysis
+4. Generate HOG features
+5. Train the One-vs-Rest SVM
+6. Evaluate validation and test performance
+
+For ANN experimentation, open:
+
+```text
+ANN PRACTICAL ON PROJECT.ipynb
+```
 
 ---
 
-## 📈 Results *(updated as the project progresses)*
+# 🧰 Tech Stack
 
-| Model | mAP@0.5 | Precision | Recall |
-|---|---|---|---|
-| Baseline SVM | *TBD* | *TBD* | *TBD* |
-| YOLOv8 (fine-tuned) | *coming soon* | — | — |
+### Machine Learning
+
+`Python` · `scikit-learn` · `SVM` · `One-vs-Rest` · `HOG`
+
+### Deep Learning
+
+`PyTorch` · `Ultralytics YOLO` · `TensorFlow/Keras`
+
+### Computer Vision
+
+`OpenCV` · `scikit-image` · `PIL`
+
+### Data Analysis
+
+`NumPy` · `Pandas` · `Matplotlib`
+
+### Planned Application Layer
+
+`Streamlit` · `Folium` · `Plotly`
+
+### Planned Deployment
+
+`ONNX` · `TensorRT` · `Raspberry Pi`
 
 ---
 
-## 🧩 Tech Stack
+# 🎯 Project Objective
 
-`Python` · `PyTorch` · `Ultralytics YOLOv8` · `OpenCV` · `scikit-learn` · `Streamlit` · `Folium` / `Plotly` · `ONNX` *(stretch)*
+TarmacLook is being developed toward a complete **AI-assisted road infrastructure monitoring pipeline**:
+
+```text
+                    TarmacLook
+                         │
+              ┌──────────┴──────────┐
+              │                     │
+        Road Imagery          Research Base
+              │                     │
+              ↓                     ↓
+       Damage Detection      Literature Review
+              │
+              ↓
+       Severity Estimation
+              │
+              ↓
+       Road Health Index
+              │
+              ↓
+       Road Segmentation
+              │
+              ↓
+       Geographic Mapping
+              │
+              ↓
+       Infrastructure
+       Decision Support
+```
+
+The current SVM baseline establishes the first quantitative benchmark. The next major milestone is replacing the image-level classical classifier with a **deep-learning object-detection pipeline capable of localizing individual road defects**.
 
 ---
 
-## 📜 License
+# 📜 License
 
-This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
+This project is licensed under the **MIT License**. See [`LICENSE`](LICENSE) for details.
 
 ---
 
-<p align="center"><i>Built as an active work-in-progress capstone project. Star ⭐ the repo to follow along as layers get added.</i></p>
+<p align="center">
+  <i>TarmacLook — building an intelligent, data-driven approach to road infrastructure monitoring.</i>
+</p>
