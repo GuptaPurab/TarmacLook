@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="900" height="360" role="img" aria-label="Test mAP@50:95 averaged over two seeds: YOLOv8n 0.312, YOLO12n 0.311, YOLO11n 0.306, YOLOv5nu 0.289">
+  <title>Test mAP@50:95, mean of seeds 42 and 2</title>
+  <style>
+    .t { font: 700 20px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #f0f6fc; }
+    .s { font: 400 13px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #8b949e; }
+    .m { font: 600 15px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #c9d1d9; }
+    .v { font: 700 15px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #f0f6fc; }
+    .tag { font: 700 11px 'Segoe UI', Helvetica, Arial, sans-serif; }
+    .bar { transform-box: fill-box; transform-origin: left; transform: scaleX(0); animation: grow 1.4s cubic-bezier(.2,.8,.2,1) forwards; }
+    .r1 { animation-delay: .2s; } .r2 { animation-delay: .45s; } .r3 { animation-delay: .7s; } .r4 { animation-delay: .95s; }
+    @keyframes grow { to { transform: scaleX(1); } }
+    .lab { opacity: 0; animation: fade .6s ease-out forwards; }
+    .l1 { animation-delay: 1.3s; } .l2 { animation-delay: 1.55s; } .l3 { animation-delay: 1.8s; } .l4 { animation-delay: 2.05s; } .l5 { animation-delay: 2.6s; }
+    @keyframes fade { to { opacity: 1; } }
+    .pulse { animation: pulse 2.4s ease-in-out 2.6s infinite; }
+    @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
+    @media (prefers-reduced-motion: reduce) { .bar { transform: none; animation: none; } .lab { opacity: 1; animation: none; } .pulse { animation: none; } }
+  </style>
+
+  <rect width="900" height="360" rx="14" fill="#0d1117"/>
+  <text x="32" y="44" class="t">Held-out RDD2022 test · mAP@50:95</text>
+  <text x="32" y="66" class="s">Mean of 2 training seeds (42, 2) · each run 6.0 h on one T4 · axis starts at 0</text>
+
+  <!-- axis: x=150 is 0, 1 unit = 600/0.35 px -->
+  <g stroke="#30363d" stroke-width="1">
+    <line x1="150" y1="90" x2="150" y2="300"/>
+    <line x1="321.4" y1="90" x2="321.4" y2="300" stroke-dasharray="3 4"/>
+    <line x1="492.9" y1="90" x2="492.9" y2="300" stroke-dasharray="3 4"/>
+    <line x1="664.3" y1="90" x2="664.3" y2="300" stroke-dasharray="3 4"/>
+  </g>
+  <g class="s" text-anchor="middle">
+    <text x="150" y="320">0</text><text x="321.4" y="320">0.10</text><text x="492.9" y="320">0.20</text><text x="664.3" y="320">0.30</text>
+  </g>
+
+  <!-- YOLOv8n 0.3122 -->
+  <text x="138" y="120" text-anchor="end" class="m">YOLOv8n</text>
+  <rect class="bar r1" x="150" y="100" width="535.2" height="30" rx="4" fill="#3fb950"/>
+  <g class="lab l1"><text x="695" y="121" class="v">0.312</text><text x="745" y="121" class="s">8.8 ms GPU</text></g>
+
+  <!-- YOLO12n 0.3107 -->
+  <text x="138" y="170" text-anchor="end" class="m">YOLO12n</text>
+  <rect class="bar r2" x="150" y="150" width="532.6" height="30" rx="4" fill="#58a6ff"/>
+  <g class="lab l2"><text x="695" y="171" class="v">0.311</text><text x="745" y="171" class="s">15.0 ms GPU</text></g>
+
+  <!-- YOLO11n 0.3059 -->
+  <text x="138" y="220" text-anchor="end" class="m">YOLO11n</text>
+  <rect class="bar r3" x="150" y="200" width="524.4" height="30" rx="4" fill="#58a6ff" fill-opacity=".7"/>
+  <g class="lab l3"><text x="695" y="221" class="v">0.306</text><text x="745" y="221" class="s">10.2 ms GPU</text></g>
+
+  <!-- YOLOv5nu 0.2894 -->
+  <text x="138" y="270" text-anchor="end" class="m">YOLOv5nu</text>
+  <rect class="bar r4" x="150" y="250" width="496.1" height="30" rx="4" fill="#8b949e"/>
+  <g class="lab l4"><text x="695" y="271" class="v">0.289</text><text x="745" y="271" class="s">9.3 ms GPU</text></g>
+
+  <g class="lab l5">
+    <rect class="pulse" x="660" y="324" width="208" height="24" rx="12" fill="#3fb950" fill-opacity=".15" stroke="#3fb950"/>
+    <text x="764" y="340" text-anchor="middle" class="tag" fill="#3fb950" style="fill:#3fb950">★ DEPLOYMENT PICK: YOLOv8n</text>
+    <text x="32" y="340" class="s">v8n vs 12n: no significant mAP@50 gap (bootstrap p = 0.96 / 0.90)</text>
+  </g>
+</svg>

@@ -1,0 +1,14 @@
+country,train,val,test
+China_Drone,1675,349,377
+China_MotorBike,1376,296,305
+Czech,1962,431,436
+Czech Republic,986,0,0
+India,5368,1172,1166
+Japan,7432,1550,1524
+Norway,5708,1256,1197
+USA,4804,0,0
+United_States,3347,704,753
+china-motorbike,1934,0,0
+india,1047,0,0
+japan,6128,0,0
+norway,2803,0,0

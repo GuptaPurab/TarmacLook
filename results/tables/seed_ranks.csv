@@ -1,0 +1,5 @@
+Model,rank mAP50-95 (seed 2),rank mAP50-95 (seed 42)
+YOLO11n,3.0,3.0
+YOLO12n,2.0,2.0
+YOLOv5nu,4.0,4.0
+YOLOv8n,1.0,1.0

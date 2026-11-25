@@ -1,0 +1,7 @@
+Experiment,Data,Metric,Value,Note
+HOG + One-vs-Rest SVM (image classification),RDD2022 (earlier pipeline),Macro-F1,0.4667,"classification metric, not detection mAP"
+Faster R-CNN ResNet18-FPN,"4,000/800 subset, 5 epochs",val mAP@50,0.1807,validation subset
+Faster R-CNN ResNet50-FPN,"4,000/800 subset, 5 epochs",val mAP@50,0.3999,validation subset
+Faster R-CNN MobileNetV3-L-FPN,"4,000/800 subset, 5 epochs",val mAP@50,0.2901,validation subset
+Faster R-CNN MobileNetV3-L-320-FPN,"4,000/800 subset, 5 epochs",val mAP@50,0.1568,validation subset
+"YOLOv8n (Colab, 9 of 20 epochs)",old Colab V_2.0.2 merge,val mAP@50,0.4796,old merge incl. fake background images

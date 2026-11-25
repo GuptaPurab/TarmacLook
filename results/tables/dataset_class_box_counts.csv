@@ -1,0 +1,6 @@
+,train,val,test
+Longitudinal Crack,40993,3890,3925
+Transverse Crack,18492,1769,1675
+Alligator Crack,15346,1553,1537
+Other Corruption,7554,1564,1587
+Pothole,8511,965,951

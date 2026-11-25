@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 170" width="1000" height="170" role="img" aria-label="Pipeline: RDD2022 plus N-RDD2024, audit and dedup, train 4 models times 2 seeds, evaluate with bootstrap, bundle for dashboard">
+  <title>TarmacLook pipeline</title>
+  <style>
+    .card { fill: #161b22; stroke: #30363d; stroke-width: 1.5; }
+    .h { font: 700 14px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #f0f6fc; }
+    .d { font: 400 11.5px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #8b949e; }
+    .flow { fill: none; stroke: #58a6ff; stroke-width: 2.5; stroke-dasharray: 6 8; animation: flow 1s linear infinite; }
+    @keyframes flow { to { stroke-dashoffset: -14; } }
+    .glow { animation: glow 5s ease-in-out infinite; }
+    .g1 { animation-delay: 0s; } .g2 { animation-delay: 1s; } .g3 { animation-delay: 2s; } .g4 { animation-delay: 3s; } .g5 { animation-delay: 4s; }
+    @keyframes glow { 0%, 25%, 100% { stroke: #30363d; } 10% { stroke: #58a6ff; } }
+    @media (prefers-reduced-motion: reduce) { .flow, .glow { animation: none; } }
+  </style>
+  <rect width="1000" height="170" rx="14" fill="#0d1117"/>
+
+  <path class="flow" d="M178 85 H210"/>
+  <path class="flow" d="M378 85 H410"/>
+  <path class="flow" d="M578 85 H610"/>
+  <path class="flow" d="M778 85 H810"/>
+
+  <g>
+    <rect class="card glow g1" x="20" y="35" width="158" height="100" rx="10"/>
+    <text x="36" y="66" class="h">📷 Data</text>
+    <text x="36" y="90" class="d">RDD2022 (train/val/test)</text>
+    <text x="36" y="107" class="d">+ N-RDD2024 (train only)</text>
+    <text x="36" y="124" class="d">56k images · 5 classes</text>
+  </g>
+  <g>
+    <rect class="card glow g2" x="210" y="35" width="168" height="100" rx="10"/>
+    <text x="226" y="66" class="h">🧹 Audit &amp; freeze</text>
+    <text x="226" y="90" class="d">MD5 dedup, quarantine</text>
+    <text x="226" y="107" class="d">class remap D00…D40</text>
+    <text x="226" y="124" class="d">fingerprint 5606829e…</text>
+  </g>
+  <g>
+    <rect class="card glow g3" x="410" y="35" width="168" height="100" rx="10"/>
+    <text x="426" y="66" class="h">🏋️ Train</text>
+    <text x="426" y="90" class="d">v5nu · v8n · 11n · 12n</text>
+    <text x="426" y="107" class="d">seeds 42 &amp; 2 → 8 runs</text>
+    <text x="426" y="124" class="d">6.0 h each, Kaggle T4</text>
+  </g>
+  <g>
+    <rect class="card glow g4" x="610" y="35" width="168" height="100" rx="10"/>
+    <text x="626" y="66" class="h">📏 Evaluate</text>
+    <text x="626" y="90" class="d">COCO + Ultralytics mAP</text>
+    <text x="626" y="107" class="d">paired bootstrap CIs</text>
+    <text x="626" y="124" class="d">latency · per country/size</text>
+  </g>
+  <g>
+    <rect class="card glow g5" x="810" y="35" width="170" height="100" rx="10"/>
+    <text x="826" y="66" class="h">📦 Bundle</text>
+    <text x="826" y="90" class="d">weights + registry.json</text>
+    <text x="826" y="107" class="d">paper figures &amp; tables</text>
+    <text x="826" y="124" class="d">→ Streamlit dashboard</text>
+  </g>
+</svg>

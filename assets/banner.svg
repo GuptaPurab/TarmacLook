@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-label="TarmacLook: road damage detection banner">
+  <title>TarmacLook</title>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d1117"/>
+      <stop offset="1" stop-color="#161b22"/>
+    </linearGradient>
+    <linearGradient id="asphalt" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b2f36"/>
+      <stop offset="1" stop-color="#1c1f24"/>
+    </linearGradient>
+    <linearGradient id="beam" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#58a6ff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#58a6ff" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#58a6ff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="roadclip"><rect x="0" y="190" width="1200" height="130"/></clipPath>
+  </defs>
+  <style>
+    .title { font: 800 64px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #f0f6fc; letter-spacing: 1px; }
+    .accent { fill: #58a6ff; }
+    .sub { font: 500 20px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #8b949e; }
+    .lbl { font: 700 12px 'Segoe UI', Helvetica, Arial, sans-serif; fill: #0d1117; }
+    .dash { animation: drive 1.2s linear infinite; }
+    @keyframes drive { from { transform: translateX(0); } to { transform: translateX(-160px); } }
+    .scan { animation: scan 6s ease-in-out infinite; }
+    @keyframes scan { 0% { transform: translateX(-200px); } 50% { transform: translateX(1200px); } 100% { transform: translateX(-200px); } }
+    .box { opacity: 0; animation: pop 6s ease-out infinite; }
+    .b1 { animation-delay: 0.6s; } .b2 { animation-delay: 1.3s; } .b3 { animation-delay: 2.0s; } .b4 { animation-delay: 2.6s; }
+    @keyframes pop { 0% { opacity: 0; transform: scale(0.92); } 6% { opacity: 1; transform: scale(1); } 70% { opacity: 1; } 85%, 100% { opacity: 0; } }
+    .box { transform-box: fill-box; transform-origin: center; }
+    .fadein { opacity: 0; animation: fade 1.2s ease-out 0.2s forwards; }
+    @keyframes fade { to { opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .dash, .scan, .box, .fadein { animation: none; opacity: 1; } }
+  </style>
+
+  <rect width="1200" height="320" fill="url(#sky)"/>
+
+  <g class="fadein">
+    <text x="600" y="92" text-anchor="middle" class="title">Tarmac<tspan class="accent">Look</tspan></text>
+    <text x="600" y="132" text-anchor="middle" class="sub">Road damage detection · 4 nano YOLOs · 2 seeds · equal 6 h budget</text>
+  </g>
+
+  <!-- road -->
+  <rect x="0" y="190" width="1200" height="130" fill="url(#asphalt)"/>
+  <rect x="0" y="190" width="1200" height="3" fill="#484f58"/>
+  <g clip-path="url(#roadclip)">
+    <g class="dash">
+      <g fill="#d29922">
+        <rect x="0" y="252" width="80" height="6" rx="3"/><rect x="160" y="252" width="80" height="6" rx="3"/>
+        <rect x="320" y="252" width="80" height="6" rx="3"/><rect x="480" y="252" width="80" height="6" rx="3"/>
+        <rect x="640" y="252" width="80" height="6" rx="3"/><rect x="800" y="252" width="80" height="6" rx="3"/>
+        <rect x="960" y="252" width="80" height="6" rx="3"/><rect x="1120" y="252" width="80" height="6" rx="3"/>
+        <rect x="1280" y="252" width="80" height="6" rx="3"/>
+      </g>
+    </g>
+
+    <!-- damage doodles -->
+    <path d="M140 210 l8 14 l-5 12 l9 16 l-4 14 l7 18" fill="none" stroke="#0b0d10" stroke-width="3"/>
+    <path d="M410 284 l30 -4 l22 5 l35 -3 l28 4" fill="none" stroke="#0b0d10" stroke-width="3"/>
+    <path d="M700 205 l14 8 l-10 10 l16 6 l-12 10 l18 4 m-36 -20 l-14 10 m30 -2 l10 14" fill="none" stroke="#0b0d10" stroke-width="2.5"/>
+    <ellipse cx="1000" cy="290" rx="34" ry="12" fill="#0b0d10"/>
+
+    <rect class="scan" x="0" y="190" width="160" height="130" fill="url(#beam)"/>
+  </g>
+
+  <!-- detection boxes -->
+  <g class="box b1">
+    <rect x="128" y="204" width="44" height="90" fill="none" stroke="#1f77b4" stroke-width="3"/>
+    <rect x="128" y="186" width="118" height="18" fill="#1f77b4"/><text x="134" y="199" class="lbl" fill="#fff" style="fill:#fff">Longitudinal 0.82</text>
+  </g>
+  <g class="box b2">
+    <rect x="402" y="270" width="132" height="24" fill="none" stroke="#ff7f0e" stroke-width="3"/>
+    <rect x="402" y="252" width="114" height="18" fill="#ff7f0e"/><text x="408" y="265" class="lbl">Transverse 0.71</text>
+  </g>
+  <g class="box b3">
+    <rect x="684" y="200" width="66" height="56" fill="none" stroke="#2ca02c" stroke-width="3"/>
+    <rect x="684" y="182" width="104" height="18" fill="#2ca02c"/><text x="690" y="195" class="lbl">Alligator 0.85</text>
+  </g>
+  <g class="box b4">
+    <rect x="958" y="272" width="84" height="36" fill="none" stroke="#d62728" stroke-width="3"/>
+    <rect x="958" y="254" width="94" height="18" fill="#d62728"/><text x="964" y="267" class="lbl" style="fill:#fff">Pothole 0.61</text>
+  </g>
+</svg>
